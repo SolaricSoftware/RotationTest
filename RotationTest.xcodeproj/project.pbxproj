@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB7C752D1B9F28E20019F81A /* DrawPadView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C752C1B9F28E20019F81A /* DrawPadView.m */; };
+		DB7C75301B9F29160019F81A /* DotButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C752F1B9F29160019F81A /* DotButton.m */; };
+		DB7C75331B9F29320019F81A /* UIBezierPath+dqd_arrowhead.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C75321B9F29320019F81A /* UIBezierPath+dqd_arrowhead.m */; };
+		DB7C753C1B9F29490019F81A /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C75351B9F29490019F81A /* UIImage+Alpha.m */; };
+		DB7C753D1B9F29490019F81A /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C75371B9F29490019F81A /* UIImage+Resize.m */; };
+		DB7C753E1B9F29490019F81A /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C75391B9F29490019F81A /* UIImage+RoundedCorner.m */; };
+		DB7C753F1B9F29490019F81A /* UIView+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C753B1B9F29490019F81A /* UIView+Color.m */; };
+		DB7C75421B9F2A030019F81A /* ArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7C75411B9F2A030019F81A /* ArrowView.m */; };
 		DB8381431B9E3D3300E3E654 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8381421B9E3D3300E3E654 /* main.m */; };
 		DB8381461B9E3D3300E3E654 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8381451B9E3D3300E3E654 /* AppDelegate.m */; };
 		DB8381491B9E3D3300E3E654 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8381481B9E3D3300E3E654 /* ViewController.m */; };
@@ -27,6 +35,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB7C752B1B9F28E20019F81A /* DrawPadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawPadView.h; sourceTree = "<group>"; };
+		DB7C752C1B9F28E20019F81A /* DrawPadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawPadView.m; sourceTree = "<group>"; };
+		DB7C752E1B9F29160019F81A /* DotButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotButton.h; sourceTree = "<group>"; };
+		DB7C752F1B9F29160019F81A /* DotButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DotButton.m; sourceTree = "<group>"; };
+		DB7C75311B9F29320019F81A /* UIBezierPath+dqd_arrowhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+dqd_arrowhead.h"; sourceTree = "<group>"; };
+		DB7C75321B9F29320019F81A /* UIBezierPath+dqd_arrowhead.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+dqd_arrowhead.m"; sourceTree = "<group>"; };
+		DB7C75341B9F29490019F81A /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		DB7C75351B9F29490019F81A /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		DB7C75361B9F29490019F81A /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		DB7C75371B9F29490019F81A /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		DB7C75381B9F29490019F81A /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		DB7C75391B9F29490019F81A /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		DB7C753A1B9F29490019F81A /* UIView+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Color.h"; sourceTree = "<group>"; };
+		DB7C753B1B9F29490019F81A /* UIView+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Color.m"; sourceTree = "<group>"; };
+		DB7C75401B9F2A030019F81A /* ArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowView.h; sourceTree = "<group>"; };
+		DB7C75411B9F2A030019F81A /* ArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowView.m; sourceTree = "<group>"; };
 		DB83813D1B9E3D3300E3E654 /* RotationTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RotationTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB8381411B9E3D3300E3E654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB8381421B9E3D3300E3E654 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -88,7 +112,23 @@
 				DB83814A1B9E3D3300E3E654 /* Main.storyboard */,
 				DB83814D1B9E3D3300E3E654 /* Images.xcassets */,
 				DB83814F1B9E3D3400E3E654 /* LaunchScreen.xib */,
+				DB7C75311B9F29320019F81A /* UIBezierPath+dqd_arrowhead.h */,
+				DB7C75321B9F29320019F81A /* UIBezierPath+dqd_arrowhead.m */,
+				DB7C75341B9F29490019F81A /* UIImage+Alpha.h */,
+				DB7C75351B9F29490019F81A /* UIImage+Alpha.m */,
+				DB7C75361B9F29490019F81A /* UIImage+Resize.h */,
+				DB7C75371B9F29490019F81A /* UIImage+Resize.m */,
+				DB7C75381B9F29490019F81A /* UIImage+RoundedCorner.h */,
+				DB7C75391B9F29490019F81A /* UIImage+RoundedCorner.m */,
+				DB7C753A1B9F29490019F81A /* UIView+Color.h */,
+				DB7C753B1B9F29490019F81A /* UIView+Color.m */,
 				DB8381401B9E3D3300E3E654 /* Supporting Files */,
+				DB7C75401B9F2A030019F81A /* ArrowView.h */,
+				DB7C75411B9F2A030019F81A /* ArrowView.m */,
+				DB7C752B1B9F28E20019F81A /* DrawPadView.h */,
+				DB7C752C1B9F28E20019F81A /* DrawPadView.m */,
+				DB7C752E1B9F29160019F81A /* DotButton.h */,
+				DB7C752F1B9F29160019F81A /* DotButton.m */,
 			);
 			path = RotationTest;
 			sourceTree = "<group>";
@@ -221,7 +261,15 @@
 			files = (
 				DB8381491B9E3D3300E3E654 /* ViewController.m in Sources */,
 				DB8381461B9E3D3300E3E654 /* AppDelegate.m in Sources */,
+				DB7C75421B9F2A030019F81A /* ArrowView.m in Sources */,
 				DB8381431B9E3D3300E3E654 /* main.m in Sources */,
+				DB7C753C1B9F29490019F81A /* UIImage+Alpha.m in Sources */,
+				DB7C753D1B9F29490019F81A /* UIImage+Resize.m in Sources */,
+				DB7C753E1B9F29490019F81A /* UIImage+RoundedCorner.m in Sources */,
+				DB7C75331B9F29320019F81A /* UIBezierPath+dqd_arrowhead.m in Sources */,
+				DB7C753F1B9F29490019F81A /* UIView+Color.m in Sources */,
+				DB7C752D1B9F28E20019F81A /* DrawPadView.m in Sources */,
+				DB7C75301B9F29160019F81A /* DotButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +466,7 @@
 				DB8381621B9E3D3400E3E654 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB8381631B9E3D3400E3E654 /* Build configuration list for PBXNativeTarget "RotationTestTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +475,7 @@
 				DB8381651B9E3D3400E3E654 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

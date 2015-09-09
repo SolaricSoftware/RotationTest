@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DrawPadView.h"
 
-@interface ViewController : UIViewController
+
+@interface ViewController : UIViewController <DrawPadViewDelegate, ArrowViewDelegate, DotButtonDelegate> {
+    UIView *_arrow;
+}
 
 
 @end
