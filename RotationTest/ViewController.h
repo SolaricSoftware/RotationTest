@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DrawPadView.h"
+#import "ArrowView.h"
+#import "DotButton.h"
 
 
-@interface ViewController : UIViewController <DrawPadViewDelegate, ArrowViewDelegate, DotButtonDelegate> {
+@interface ViewController : UIViewController <ArrowViewDelegate, DotButtonDelegate> {
     UIView *_arrow;
 }
 

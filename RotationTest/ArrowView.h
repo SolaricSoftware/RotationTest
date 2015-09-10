@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
 #import "UIBezierPath+dqd_arrowhead.h"
 #import "UIView+Color.h"
 #import "DotButton.h"
@@ -26,7 +27,7 @@
     CGRect _lastFrame;
 }
 
-@property id <ArrowViewDelegate, DotButtonDelegate> delegate;
+@property id <ArrowViewDelegate> delegate;
 @property (nonatomic) UIColor *arrowColor;
 @property (nonatomic) CGPoint startPoint;
 @property (nonatomic) CGPoint endPoint;
@@ -34,6 +35,8 @@
 @property (nonatomic) CGFloat headWidth;
 @property (nonatomic) CGFloat weight;
 @property (nonatomic, setter=setIsSelected:) BOOL isSelected;
+@property (nonatomic) DotButtonIndex dotButtonIndex;
+@property (nonatomic) CGFloat currentAngle;
 
 - (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight withStartPoint: (CGPoint) startPoint withEndPoint: (CGPoint) endPoint;
 - (void) updateStartPoint: (CGPoint) startPoint;
@@ -48,5 +51,7 @@
 
 @optional
 - (void) pathUpdated: (UIBezierPath *) path inView: (UIView *) view;
+- (void) dotTouchBegan: (DotButton *) button inView: (ArrowView *) view forIndex:(DotButtonIndex)index;
+- (void) dotTouchEnded: (DotButton *) button inView: (ArrowView *) view forIndex:(DotButtonIndex)index;
 
 @end

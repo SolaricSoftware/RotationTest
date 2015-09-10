@@ -21,7 +21,6 @@
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"Dot Touch Begin");
     if ([_delegate respondsToSelector:@selector(dotButtonTouchBegan:)]) {
         [_delegate dotButtonTouchBegan:self];
     }

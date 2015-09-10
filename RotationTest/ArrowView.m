@@ -22,6 +22,7 @@
         _startPoint = startPoint;
         _endPoint = endPoint;
         _dotButtonSize = 25;
+        _dotButtonIndex = kDotButtonSecond;
         
         self.userInteractionEnabled = YES;
         
@@ -33,6 +34,7 @@
         [_startDotButton removeFromSuperview];
         CGRect startDotFrame = CGRectMake(-5, -2.5, _dotButtonSize, _dotButtonSize);
         _startDotButton = [[DotButton alloc] initWithFrame: startDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
+        _startDotButton.delegate = self;
         _startDotButton.backgroundColor = [UIColor clearColor];
         [self addSubview:_startDotButton];
         [self bringSubviewToFront:_startDotButton];
@@ -40,6 +42,7 @@
         [_endDotButton removeFromSuperview];
         CGRect endDotFrame = CGRectMake(path.bounds.size.width - (_dotButtonSize - 2.5), -2.5, _dotButtonSize, _dotButtonSize);
         _endDotButton = [[DotButton alloc] initWithFrame: endDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
+        _endDotButton.delegate = self;
         _endDotButton.backgroundColor = [UIColor clearColor];
         [self addSubview:_endDotButton];
         [self bringSubviewToFront:_endDotButton];
@@ -72,8 +75,13 @@
     }
 
     _arrowLayer = [CAShapeLayer layer];
-    _arrowLayer.position = CGPointMake(0, self.frame.size.height / 2);
-    //_arrowLayer.anchorPoint = CGPointMake(0, 0);
+    //_arrowLayer.position = CGPointMake(0, self.frame.size.height / 2);
+    
+    if (_dotButtonIndex == kDotButtonFirst) {
+        _arrowLayer.anchorPoint = CGPointMake(1, 0);
+    } else {
+        _arrowLayer.anchorPoint = CGPointMake(0, 0);
+    }
 
     path = [UIBezierPath dqd_bezierPathWithArrowFromPoint:(CGPoint)_startPoint
                                                   toPoint:(CGPoint)_endPoint
@@ -104,29 +112,39 @@
     
     [self.layer addSublayer:_arrowLayer];
     
-    [self createDots];
+    [self showDots];
 }
 
-- (void) createDots {
-//    [_startDotButton removeFromSuperview];
-    CGRect startDotFrame = CGRectMake(-5, -2.5, _dotButtonSize, _dotButtonSize);
+- (void) dotButtonTouchBegan: (DotButton *) button {
+    _dotButtonIndex = kDotButtonFirst;
+    if (button == _endDotButton) {
+        _dotButtonIndex = kDotButtonSecond;
+    }
+    
+    if ([_delegate respondsToSelector:@selector(dotTouchBegan:inView:forIndex:)]) {
+        [_delegate dotTouchBegan:button inView:self forIndex:_dotButtonIndex];
+    }
+}
+
+- (void) dotButtonTouchEnded: (DotButton *) button {
+    _dotButtonIndex = kDotButtonFirst;
+    if (button == _endDotButton) {
+        _dotButtonIndex = kDotButtonSecond;
+    }
+    
+    if ([_delegate respondsToSelector:@selector(dotTouchEnded:inView:forIndex:)]) {
+        [_delegate dotTouchEnded:button inView:self forIndex:_dotButtonIndex];
+    }
+}
+
+- (void) showDots {
+    CGRect startDotFrame = CGRectMake(-5, 0, _dotButtonSize, _dotButtonSize);
     _startDotButton.frame = startDotFrame;
-//    _startDotButton = [[DotButton alloc] initWithFrame: startDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
-//    _startDotButton.backgroundColor = [UIColor clearColor];
-    _startDotButton.delegate = _delegate;
-//    [self addSubview:_startDotButton];
     [self bringSubviewToFront:_startDotButton];
     
-//    [_endDotButton removeFromSuperview];
-    CGRect endDotFrame = CGRectMake(path.bounds.size.width - (_dotButtonSize - 2.5), -2.5, _dotButtonSize, _dotButtonSize);
+    CGRect endDotFrame = CGRectMake(path.bounds.size.width - (_dotButtonSize - 2.5), 0, _dotButtonSize, _dotButtonSize);
     _endDotButton.frame = endDotFrame;
-//    _endDotButton = [[DotButton alloc] initWithFrame: endDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
-//    _endDotButton.backgroundColor = [UIColor clearColor];
-    _endDotButton.delegate = _delegate;
-//    [self addSubview:_endDotButton];
     [self bringSubviewToFront:_endDotButton];
-
-    self.frame = CGRectMake(0, 0, path.bounds.size.width, path.bounds.size.height);
 }
 
 - (void) setIsSelected: (BOOL) isSelected {

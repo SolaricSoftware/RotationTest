@@ -10,6 +10,11 @@
 
 @protocol DotButtonDelegate;
 
+typedef enum {
+    kDotButtonFirst,
+    kDotButtonSecond
+} DotButtonIndex;
+
 @interface DotButton : UIButton {
     CAShapeLayer *_dotLayer;
 }
