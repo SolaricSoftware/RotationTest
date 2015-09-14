@@ -42,8 +42,6 @@
 //- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight withStartPoint: (CGPoint) startPoint withEndPoint: (CGPoint) endPoint;
 - (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight;
 - (void) drawArrow: (CGPoint) startPoint to: (CGPoint) endPoint;
-- (void) updateStartPoint: (CGPoint) startPoint;
-- (void) updateEndPoint: (CGPoint) endPoint;
 - (void) updateColor: (UIColor *) color;
 - (void) updateWeight: (CGFloat) weight;
 - (void) setIsSelected: (BOOL) isSelected;

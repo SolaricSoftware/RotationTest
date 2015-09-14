@@ -31,14 +31,13 @@
         self.layer.borderColor = [UIColor brownColor].CGColor;
         self.layer.borderWidth = 1;
         
-        self.backgroundColor = [UIColor blueColor];
+        self.backgroundColor = [UIColor clearColor];
         
         [_startDotButton removeFromSuperview];
         CGRect startDotFrame = CGRectMake(-5, -2.5, _dotButtonSize, _dotButtonSize);
         _startDotButton = [[DotButton alloc] initWithFrame: startDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
         _startDotButton.delegate = self;
         _startDotButton.backgroundColor = [UIColor clearColor];
-        //[self addSubview:_startDotButton];
         [self bringSubviewToFront:_startDotButton];
         
         [_endDotButton removeFromSuperview];
@@ -46,7 +45,6 @@
         _endDotButton = [[DotButton alloc] initWithFrame: endDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
         _endDotButton.delegate = self;
         _endDotButton.backgroundColor = [UIColor clearColor];
-        //[self addSubview:_endDotButton];
         [self bringSubviewToFront:_endDotButton];
         
         
@@ -212,6 +210,16 @@
     [self setNeedsDisplay];
 }
 
+- (void) updateColor: (UIColor *) color {
+    _arrowColor = color;
+    [self setNeedsDisplay];
+}
+
+- (void) updateWeight: (CGFloat) weight {
+    _weight = weight;
+    [self setNeedsDisplay];
+}
+
 - (void) drawArrow: (CGPoint) startPoint to: (CGPoint) endPoint {
     startPoint = [self convertPoint:startPoint fromView:self.superview];
     endPoint = [self convertPoint:endPoint fromView:self.superview];
@@ -225,34 +233,13 @@
         self.transform = CGAffineTransformRotate(self.transform, ang);
         
         CGFloat diff = (endPoint.x - self.bounds.size.width);
-        self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width + diff, self.bounds.size.height);
-
-//        _endPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
-//        [self setNeedsDisplay];
+        
+        NSLog(@"\n\n diff: %f \n\n", diff);
+        self.bounds = CGRectMake(0, 0, self.bounds.size.width + diff, self.bounds.size.height);
+        
+        _endPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+        [self setNeedsDisplay];
     }
-}
-
-- (void) updateStartPoint: (CGPoint) startPoint {
-    _startPoint = startPoint;
-    [self setNeedsDisplay];
-}
-
-- (void) updateEndPoint: (CGPoint) endPoint {
-    _endPoint = endPoint;
-    [self setPosition:0];
-    self.frame = CGRectMake(_startPoint.x, _startPoint.y, _endPoint.x - _startPoint.x, _endPoint.y - _startPoint.y);
-    self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, endPoint.x - self.bounds.origin.x, endPoint.y);
-    [self setNeedsDisplay];
-}
-
-- (void) updateColor: (UIColor *) color {
-    _arrowColor = color;
-    [self setNeedsDisplay];
-}
-
-- (void) updateWeight: (CGFloat) weight {
-    _weight = weight;
-    [self setNeedsDisplay];
 }
 
 - (void) setPosition: (CGFloat) anchorPointX {
