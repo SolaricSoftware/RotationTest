@@ -35,7 +35,7 @@
         //Instantiate the arrow
         CGPoint touchPoint = [sender locationInView:sender.view];
         _startPoint = touchPoint;
-        _selectedArrowView = [[ArrowView alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 0, 25) withColor:_selectedColor withWeight:_selectedWeight];
+        _selectedArrowView = [[ArrowView alloc] initWithFrame:CGRectMake(touchPoint.x, touchPoint.y, 300, 25) withColor:_selectedColor withWeight:_selectedWeight];
         _selectedArrowView.delegate = self;
         [self.view addSubview:_selectedArrowView];
         [self.view bringSubviewToFront:_selectedArrowView];
@@ -45,6 +45,8 @@
         //"Draw" the arrow based upon finger postion
         CGPoint touchPoint = [sender locationInView:sender.view];
         [_selectedArrowView drawArrow:_startPoint to:touchPoint];
+    } else if (sender.state == UIGestureRecognizerStateEnded) {
+        [_selectedArrowView setIsSelected:YES];
     }
 }
 

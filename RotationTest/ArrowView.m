@@ -225,8 +225,9 @@
     endPoint = [self convertPoint:endPoint fromView:self.superview];
     
     if (_initialAngle == -1000 /*Initially set to an arbitrary value so I know when the draw began*/) {
-        _initialAngle = atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
+        _initialAngle = atan2(startPoint.y - (endPoint.y + 0), startPoint.x - (endPoint.x + self.frame.size.width));
         [self setPosition:0];
+        self.layer.anchorPoint = CGPointMake(0, 1);
     } else {
         CGFloat ang = atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
         ang -= _initialAngle;
