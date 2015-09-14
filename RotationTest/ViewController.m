@@ -16,8 +16,8 @@
     ArrowView *_selectedArrowView;
     UIColor *_selectedColor;
     CGFloat _selectedWeight;
-    CGFloat _initalAngle;
-    DotButtonIndex _dotButtonIndex;
+//    CGFloat _initalAngle;
+//    CGFloat _angle;
 }
 
 - (void)viewDidLoad {
@@ -26,28 +26,37 @@
     _selectedColor = [UIColor yellowColor];
     _selectedWeight = 3;
     
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
-    [self.view addGestureRecognizer:pan];
+//    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
+//    [self.view addGestureRecognizer:pan];
     
-    _selectedArrowView = [[ArrowView alloc] initWithFrame:CGRectMake(300, 300, 150, 25) withColor:_selectedColor withWeight:_selectedWeight withStartPoint:CGPointMake(300, 300) withEndPoint:CGPointMake(450, 300)];
+    _selectedArrowView = [[ArrowView alloc] initWithFrame:CGRectMake(100, 100, 150, 25) withColor:_selectedColor withWeight:_selectedWeight];
     _selectedArrowView.delegate = self;
-    _selectedArrowView.layer.anchorPoint = CGPointMake(0, 0);
-    _selectedArrowView.layer.position = CGPointMake(150, 300);
+    //_selectedArrowView.layer.anchorPoint = CGPointMake(0, 0.5);
+    //_selectedArrowView.layer.position = CGPointMake(150,100);
     [self.view addSubview:_selectedArrowView];
     [self.view bringSubviewToFront:_selectedArrowView];
 }
 
-- (void) panHandler: (UIPanGestureRecognizer *) sender {
-    CGPoint touchPoint = [sender locationInView:sender.view];
-    
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        _initalAngle = atan2(touchPoint.y, touchPoint.x);
-    } else if (sender.state == UIGestureRecognizerStateChanged) {
-        CGFloat currentAngle = atan2(touchPoint.y, touchPoint.x);
-        CGFloat angle = _initalAngle - currentAngle;
-        CGAffineTransform transform = CGAffineTransformMakeRotation(angle * -1);
-        _selectedArrowView.transform = transform;
-    }
-}
+//- (void) panHandler: (UIPanGestureRecognizer *) sender {
+//    //CGPoint touchPoint = [sender locationInView:sender.view];
+//    
+//    if (sender.state == UIGestureRecognizerStateBegan) {
+//        _initalAngle = pToA(sender, _selectedArrowView);
+//    } else if (sender.state == UIGestureRecognizerStateChanged) {
+//        _angle = pToA(sender, _selectedArrowView);
+//        _angle -= _initalAngle;
+//        CGAffineTransform transform = CGAffineTransformMakeRotation(_angle);
+//        _selectedArrowView.transform = transform;
+//    } else if (sender.state == UIGestureRecognizerStateEnded) {
+//        _selectedArrowView.currentAngle = _angle;
+//    }
+//}
+
+//static CGFloat pToA (UIGestureRecognizer * sender, UIView* view) {
+//    CGPoint loc = [sender locationInView: sender.view];
+//    CGPoint c = CGPointMake(CGRectGetMinX(view.bounds),
+//                            CGRectGetMinY(view.bounds));
+//    return atan2(loc.y - c.y, loc.x - c.x);
+//}
 
 @end

@@ -15,14 +15,15 @@
     UIBezierPath *path;
 }
 
-- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight withStartPoint: (CGPoint) startPoint withEndPoint: (CGPoint) endPoint {
+- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight {
     if (self = [super initWithFrame:frame]) {
         _arrowColor = color;
         _weight = weight;
-        _startPoint = startPoint;
-        _endPoint = endPoint;
+        
         _dotButtonSize = 25;
         _dotButtonIndex = kDotButtonSecond;
+        _startPoint = CGPointMake(0, 0);
+        _endPoint = CGPointMake(frame.size.width, frame.size.height);
         
         self.userInteractionEnabled = YES;
         
@@ -36,7 +37,7 @@
         _startDotButton = [[DotButton alloc] initWithFrame: startDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
         _startDotButton.delegate = self;
         _startDotButton.backgroundColor = [UIColor clearColor];
-        [self addSubview:_startDotButton];
+        //[self addSubview:_startDotButton];
         [self bringSubviewToFront:_startDotButton];
         
         [_endDotButton removeFromSuperview];
@@ -44,11 +45,83 @@
         _endDotButton = [[DotButton alloc] initWithFrame: endDotFrame DotSize:_dotButtonSize Color:[UIColor greenColor] InnerColor:[UIColor whiteColor]];
         _endDotButton.delegate = self;
         _endDotButton.backgroundColor = [UIColor clearColor];
-        [self addSubview:_endDotButton];
+        //[self addSubview:_endDotButton];
         [self bringSubviewToFront:_endDotButton];
+        
+        
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panHandler:)];
+        [self addGestureRecognizer:pan];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHandler:)];
+        [self addGestureRecognizer:tap];
     }
 
     return self;
+}
+
+- (void) panHandler: (UIPanGestureRecognizer *) sender {
+    if (_dotSelected) {
+        if (sender.state == UIGestureRecognizerStateBegan) {
+            _initialAngle = pToA(sender, self, _dotButtonIndex);
+            
+            if (_dotButtonIndex == kDotButtonFirst) {
+                [self setPosition:1];
+            } else {
+                [self setPosition:0];
+            }
+            
+        } else if (sender.state == UIGestureRecognizerStateChanged) {
+            CGFloat ang = pToA(sender, self, _dotButtonIndex);
+            ang -= _initialAngle;
+            self.transform = CGAffineTransformRotate(self.transform, ang);
+            
+            if (_dotButtonIndex == kDotButtonSecond) {
+                CGPoint loc = [sender locationInView:sender.view];
+                CGFloat diff = (loc.x - self.bounds.size.width);
+                
+                NSLog(@"\n\n \n Position: 0 \n diff: %f \n bounds: %@ \n\n", diff, NSStringFromCGRect(self.bounds));
+                
+                self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width + diff, self.bounds.size.height);
+                _endPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+                [self setNeedsDisplay];
+            } else {
+                CGPoint loc = [sender locationInView:sender.view];
+                CGFloat diff = (loc.x - self.bounds.origin.x);
+
+                NSLog(@"\n\n \n Position: 1 \n diff: %f \n bounds: %@ \n\n", diff, NSStringFromCGRect(self.bounds));
+
+                
+                self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width - diff, self.bounds.size.height);
+                
+
+                _endPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+                [self setNeedsDisplay];
+            }
+        } else if (sender.state == UIGestureRecognizerStateEnded) {
+            _dotSelected = NO;
+        }
+    } else {
+        if (sender.numberOfTouches > 0) {
+            CGPoint translation = [sender translationInView:sender.view.superview];
+            sender.view.center = CGPointMake(sender.view.center.x + translation.x, sender.view.center.y + translation.y);
+            [sender setTranslation:CGPointMake(0, 0) inView:sender.view];
+        }
+    }
+}
+
+- (void) tapHandler: (UITapGestureRecognizer *) sender {
+    if ([UIView alphaFromPoint:[sender locationInView:sender.view] withLayer:self.layer] > 0) {
+        [self setIsSelected:YES];
+        
+        if ([_delegate respondsToSelector:@selector(arrowTouched:inView:)]) {
+            [_delegate arrowTouched:YES inView:self];
+        }
+    } else {
+        [self setIsSelected:NO];
+        if ([_delegate respondsToSelector:@selector(arrowTouched:inView:)]) {
+            [_delegate arrowTouched:NO inView:self];
+        }
+    }
 }
 
 - (void) drawRect:(CGRect)rect {
@@ -61,27 +134,9 @@
     _tailWidth = 6 + _weight;
     _headWidth = 25 + _weight;
     headLength = 40;
-
-    CGFloat width = _endPoint.x - _startPoint.x;
-    CGFloat height = _endPoint.y - _startPoint.y;
     
-    _offset = 0;
-    if (ABS(width) < _offset) {
-        width = width > 0 ? _offset : -_offset;
-    }
-    
-    if (ABS(height) < _offset) {
-        height = height > 0 ? _offset : -_offset;
-    }
-
     _arrowLayer = [CAShapeLayer layer];
-    //_arrowLayer.position = CGPointMake(0, self.frame.size.height / 2);
-    
-    if (_dotButtonIndex == kDotButtonFirst) {
-        _arrowLayer.anchorPoint = CGPointMake(1, 0);
-    } else {
-        _arrowLayer.anchorPoint = CGPointMake(0, 0);
-    }
+    _arrowLayer.position = CGPointMake(0, self.bounds.size.height / 2);
 
     path = [UIBezierPath dqd_bezierPathWithArrowFromPoint:(CGPoint)_startPoint
                                                   toPoint:(CGPoint)_endPoint
@@ -116,6 +171,8 @@
 }
 
 - (void) dotButtonTouchBegan: (DotButton *) button {
+    _dotSelected = YES;
+    
     _dotButtonIndex = kDotButtonFirst;
     if (button == _endDotButton) {
         _dotButtonIndex = kDotButtonSecond;
@@ -127,6 +184,8 @@
 }
 
 - (void) dotButtonTouchEnded: (DotButton *) button {
+    _dotSelected = NO;
+    
     _dotButtonIndex = kDotButtonFirst;
     if (button == _endDotButton) {
         _dotButtonIndex = kDotButtonSecond;
@@ -138,13 +197,20 @@
 }
 
 - (void) showDots {
-    CGRect startDotFrame = CGRectMake(-5, 0, _dotButtonSize, _dotButtonSize);
-    _startDotButton.frame = startDotFrame;
-    [self bringSubviewToFront:_startDotButton];
-    
-    CGRect endDotFrame = CGRectMake(path.bounds.size.width - (_dotButtonSize - 2.5), 0, _dotButtonSize, _dotButtonSize);
-    _endDotButton.frame = endDotFrame;
-    [self bringSubviewToFront:_endDotButton];
+    if (_isSelected) {
+        CGRect startDotFrame = CGRectMake(-5, 0, _dotButtonSize, _dotButtonSize);
+        _startDotButton.frame = startDotFrame;
+        [self addSubview:_startDotButton];
+        [self bringSubviewToFront:_startDotButton];
+        
+        CGRect endDotFrame = CGRectMake(path.bounds.size.width - (_dotButtonSize - 2.5), 0, _dotButtonSize, _dotButtonSize);
+        _endDotButton.frame = endDotFrame;
+        [self addSubview:_endDotButton];
+        [self bringSubviewToFront:_endDotButton];
+    } else {
+        [_startDotButton removeFromSuperview];
+        [_endDotButton removeFromSuperview];
+    }
 }
 
 - (void) setIsSelected: (BOOL) isSelected {
@@ -170,6 +236,32 @@
 - (void) updateWeight: (CGFloat) weight {
     _weight = weight;
     [self setNeedsDisplay];
+}
+
+- (void) setPosition: (CGFloat) anchorPointX {
+    CGPoint layerLoc;
+    
+    if (anchorPointX == 0) {
+        layerLoc = CGPointMake(self.layer.bounds.origin.x, self.layer.bounds.origin.y + (self.layer.bounds.size.height / 2));
+    } else {
+        layerLoc = CGPointMake(self.layer.bounds.origin.x + self.layer.bounds.size.width, self.layer.bounds.origin.y + (self.layer.bounds.size.height / 2));
+    }
+    
+    CGPoint superLoc = [self convertPoint:layerLoc toView:self.superview];
+    
+    self.layer.anchorPoint = CGPointMake(anchorPointX, 0.5);
+    self.layer.position = superLoc;
+}
+
+static CGFloat pToA (UIGestureRecognizer * sender, UIView* view, DotButtonIndex index) {
+    CGPoint loc = [sender locationInView: sender.view];
+    CGPoint c;
+    if (index == kDotButtonFirst) {
+        c = CGPointMake(CGRectGetMaxX(view.bounds), CGRectGetMaxY(view.bounds));
+    } else {
+        c = CGPointMake(CGRectGetMinX(view.bounds), CGRectGetMinY(view.bounds));
+    }
+    return atan2(c.y - loc.y, c.x - loc.x);
 }
 
 @end

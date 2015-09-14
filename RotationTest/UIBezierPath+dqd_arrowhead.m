@@ -13,11 +13,15 @@
 @implementation UIBezierPath (dqd_arrowhead)
 
 + (UIBezierPath *)dqd_bezierPathWithArrowFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint tailWidth:(CGFloat)tailWidth headWidth:(CGFloat)headWidth headLength:(CGFloat)headLength {
+    CGFloat x = endPoint.x - startPoint.x;
+    CGFloat y = endPoint.y - startPoint.y;
+    CGFloat length = hypotf(x, y);
     
-    CGFloat length = hypotf(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+//    NSLog(@"\n\nstartPoint: %@ \nendPoint: %@ \nx: %f \ny: %f \nlength: %f \n\n", NSStringFromCGPoint(startPoint), NSStringFromCGPoint(endPoint), x, y, length);
+
     CGPoint points[kArrowPointCount];
     [self dqd_getAxisAlignedArrowPoints:points forLength:length tailWidth:tailWidth headWidth:headWidth headLength:headLength];
-    CGAffineTransform transform = [self dqd_transformForStartPoint:startPoint endPoint:endPoint length:length];
+    //CGAffineTransform transform = [self dqd_transformForStartPoint:startPoint endPoint:endPoint length:length];
     CGMutablePathRef cgPath = CGPathCreateMutable();
     CGPathAddLines(cgPath, nil, points, sizeof points / sizeof *points);
     CGPathCloseSubpath(cgPath);

@@ -25,6 +25,8 @@
     CGFloat _panViewSize;
     UIView *_panView;
     CGRect _lastFrame;
+    CGFloat _initialAngle;
+    BOOL _dotSelected;
 }
 
 @property id <ArrowViewDelegate> delegate;
@@ -36,9 +38,9 @@
 @property (nonatomic) CGFloat weight;
 @property (nonatomic, setter=setIsSelected:) BOOL isSelected;
 @property (nonatomic) DotButtonIndex dotButtonIndex;
-@property (nonatomic) CGFloat currentAngle;
 
-- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight withStartPoint: (CGPoint) startPoint withEndPoint: (CGPoint) endPoint;
+//- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight withStartPoint: (CGPoint) startPoint withEndPoint: (CGPoint) endPoint;
+- (id) initWithFrame:(CGRect)frame withColor: (UIColor *) color withWeight: (CGFloat) weight;
 - (void) updateStartPoint: (CGPoint) startPoint;
 - (void) updateEndPoint: (CGPoint) endPoint;
 - (void) updateColor: (UIColor *) color;
@@ -53,5 +55,6 @@
 - (void) pathUpdated: (UIBezierPath *) path inView: (UIView *) view;
 - (void) dotTouchBegan: (DotButton *) button inView: (ArrowView *) view forIndex:(DotButtonIndex)index;
 - (void) dotTouchEnded: (DotButton *) button inView: (ArrowView *) view forIndex:(DotButtonIndex)index;
+- (void) arrowTouched: (BOOL) selected inView: (ArrowView *) view;
 
 @end
