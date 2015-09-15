@@ -45,6 +45,7 @@
 - (void) updateColor: (UIColor *) color;
 - (void) updateWeight: (CGFloat) weight;
 - (void) setIsSelected: (BOOL) isSelected;
+- (void) changeOrientation: (UIInterfaceOrientation) newOrientation;
 
 @end
 

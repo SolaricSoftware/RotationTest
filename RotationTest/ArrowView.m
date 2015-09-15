@@ -225,21 +225,29 @@
     endPoint = [self convertPoint:endPoint fromView:self.superview];
     
     if (_initialAngle == -1000 /*Initially set to an arbitrary value so I know when the draw began*/) {
-        _initialAngle = atan2(startPoint.y - (endPoint.y + 0), startPoint.x - (endPoint.x + self.frame.size.width));
+        _startPoint = startPoint;
+        _initialAngle = atan2(startPoint.y - endPoint.y, startPoint.x - (endPoint.x + self.frame.size.width));
         [self setPosition:0];
-        self.layer.anchorPoint = CGPointMake(0, 1);
     } else {
-        CGFloat ang = atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
-        ang -= _initialAngle;
-        self.transform = CGAffineTransformRotate(self.transform, ang);
+        CGFloat angle = atan2(startPoint.y - endPoint.y, startPoint.x - endPoint.x);
+        angle -= _initialAngle;
+        self.transform = CGAffineTransformRotate(self.transform, angle);
         
         CGFloat diff = (endPoint.x - self.bounds.size.width);
-        
-        NSLog(@"\n\n diff: %f \n\n", diff);
         self.bounds = CGRectMake(0, 0, self.bounds.size.width + diff, self.bounds.size.height);
         
         _endPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
         [self setNeedsDisplay];
+    }
+}
+
+- (void) changeOrientation: (UIInterfaceOrientation) newOrientation {
+    NSLog(@"\n\n frame: %@", NSStringFromCGRect(self.frame));
+    
+    if (UIInterfaceOrientationIsLandscape(newOrientation)) {
+        self.transform = CGAffineTransformTranslate(self.transform, 100, -100);
+    } else {
+        self.transform = CGAffineTransformTranslate(self.transform, -100, 100);
     }
 }
 
